@@ -7,7 +7,7 @@ import com.sofkau.domainDrivenDesignChallenge.domain.values.ProductId;
 
 public class Item extends Entity<ItemId> {
     private ProductId productId;
-    private Quantity quantity;
+    private Quantity  quantity;
 
     public Item(ItemId entityId, ProductId productId, Quantity quantity) {
         super(entityId);
@@ -16,11 +16,11 @@ public class Item extends Entity<ItemId> {
     }
 
     //Behaviors
-    public void updateProductId(ProductId productId){
+    public void updateProductId(ProductId productId) {
         this.productId = productId;
     }
 
-    public void updateQuantity(Quantity quantity){
+    public void updateQuantity(Quantity quantity) {
         this.quantity = quantity;
     }
 

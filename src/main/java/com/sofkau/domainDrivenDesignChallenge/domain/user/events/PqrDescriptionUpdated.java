@@ -5,7 +5,7 @@ import com.sofkau.domainDrivenDesignChallenge.domain.user.values.Description;
 import com.sofkau.domainDrivenDesignChallenge.domain.user.values.PqrId;
 
 public class PqrDescriptionUpdated extends DomainEvent {
-    private final PqrId pqrId;
+    private final PqrId       pqrId;
     private final Description description;
 
     public PqrDescriptionUpdated(PqrId entityId, Description description) {

@@ -6,9 +6,9 @@ import com.sofkau.domainDrivenDesignChallenge.domain.values.ProductId;
 
 public class UpdateProductName extends Command {
     private final ProductId productId;
-    private final Name name;
+    private final Name      name;
 
-    public UpdateProductName(ProductId productId, Name name){
+    public UpdateProductName(ProductId productId, Name name) {
         this.productId = productId;
         this.name = name;
     }

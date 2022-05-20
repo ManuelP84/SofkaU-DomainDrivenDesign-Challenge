@@ -5,10 +5,10 @@ import com.sofkau.domainDrivenDesignChallenge.domain.user.values.Description;
 import com.sofkau.domainDrivenDesignChallenge.domain.user.values.PqrId;
 
 public class CreatePqr extends Command {
-    private final PqrId pqrId;
+    private final PqrId       pqrId;
     private final Description description;
 
-    public CreatePqr(PqrId entityId, Description description){
+    public CreatePqr(PqrId entityId, Description description) {
 
         this.pqrId = entityId;
         this.description = description;

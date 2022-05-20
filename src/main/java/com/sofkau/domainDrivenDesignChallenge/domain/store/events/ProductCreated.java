@@ -7,8 +7,8 @@ import com.sofkau.domainDrivenDesignChallenge.domain.values.ProductId;
 
 public class ProductCreated extends DomainEvent {
     private final ProductId productId;
-    private final Name name;
-    private final Price price;
+    private final Name      name;
+    private final Price     price;
 
     public ProductCreated(ProductId entityId, Name name, Price price) {
         super("sofkaU.store.productCreated");

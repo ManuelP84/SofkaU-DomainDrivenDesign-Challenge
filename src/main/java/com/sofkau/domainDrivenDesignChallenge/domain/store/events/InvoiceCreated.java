@@ -6,7 +6,7 @@ import com.sofkau.domainDrivenDesignChallenge.domain.values.OrderId;
 
 public class InvoiceCreated extends DomainEvent {
     private final InvoiceId invoiceId;
-    private final OrderId orderId;
+    private final OrderId   orderId;
 
     public InvoiceCreated(InvoiceId entityId, OrderId orderId) {
         super("sofkaU.store.invoiceCreated");

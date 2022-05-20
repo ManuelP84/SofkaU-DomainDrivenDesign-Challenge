@@ -6,7 +6,7 @@ import com.sofkau.domainDrivenDesignChallenge.domain.values.CartId;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.OrderId;
 
 public class Order extends Entity<OrderId> {
-    private Date date;
+    private Date   date;
     private CartId cartId;
 
     public Order(OrderId entityId, Date date, CartId cartId) {
@@ -16,11 +16,11 @@ public class Order extends Entity<OrderId> {
     }
 
     //Behaviors
-    public void updateDate(Date date){
+    public void updateDate(Date date) {
         this.date = date;
     }
 
-    public void updateCartId(CartId cartId){
+    public void updateCartId(CartId cartId) {
         this.cartId = cartId;
     }
 

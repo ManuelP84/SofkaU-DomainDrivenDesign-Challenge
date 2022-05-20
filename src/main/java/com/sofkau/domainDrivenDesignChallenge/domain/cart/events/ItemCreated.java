@@ -6,9 +6,9 @@ import com.sofkau.domainDrivenDesignChallenge.domain.cart.values.Quantity;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.ProductId;
 
 public class ItemCreated extends DomainEvent {
-    private final ItemId itemId;
+    private final ItemId    itemId;
     private final ProductId productId;
-    private final Quantity quantity;
+    private final Quantity  quantity;
 
     public ItemCreated(ItemId entityId, ProductId productId, Quantity quantity) {
         super("sofkaU.cart.itemCreated");

@@ -6,7 +6,7 @@ import com.sofkau.domainDrivenDesignChallenge.domain.values.OrderId;
 
 public class OrderDateUpdated extends DomainEvent {
     private final OrderId orderId;
-    private final Date date;
+    private final Date    date;
 
     public OrderDateUpdated(OrderId entityId, Date date) {
         super("sofkaU.user.orderDateUpdated");

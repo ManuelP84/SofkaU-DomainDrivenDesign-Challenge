@@ -6,9 +6,9 @@ import com.sofkau.domainDrivenDesignChallenge.domain.values.OrderId;
 
 public class UpdateOrderCartId extends Command {
     private final OrderId orderId;
-    private final CartId cartId;
+    private final CartId  cartId;
 
-    public UpdateOrderCartId(OrderId orderId, CartId cartId){
+    public UpdateOrderCartId(OrderId orderId, CartId cartId) {
         this.orderId = orderId;
         this.cartId = cartId;
     }

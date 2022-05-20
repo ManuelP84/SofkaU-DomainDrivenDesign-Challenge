@@ -7,7 +7,7 @@ import com.sofkau.domainDrivenDesignChallenge.domain.values.ProductId;
 
 public class Offer extends Entity<OfferId> {
     private ProductId productId;
-    private Discount discount;
+    private Discount  discount;
 
     public Offer(OfferId entityId, ProductId productId, Discount discount) {
         super(entityId);
@@ -16,11 +16,11 @@ public class Offer extends Entity<OfferId> {
     }
 
     //Behaviors
-    public void updateProductId(ProductId productId){
+    public void updateProductId(ProductId productId) {
         this.productId = productId;
     }
 
-    public void updateDiscount(Discount discount){
+    public void updateDiscount(Discount discount) {
         this.discount = discount;
     }
 

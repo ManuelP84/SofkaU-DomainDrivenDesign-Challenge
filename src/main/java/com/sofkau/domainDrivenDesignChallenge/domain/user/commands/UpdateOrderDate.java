@@ -6,9 +6,9 @@ import com.sofkau.domainDrivenDesignChallenge.domain.values.OrderId;
 
 public class UpdateOrderDate extends Command {
     private final OrderId orderId;
-    private final Date date;
+    private final Date    date;
 
-    public UpdateOrderDate(OrderId entityId, Date date){
+    public UpdateOrderDate(OrderId entityId, Date date) {
         this.orderId = entityId;
         this.date = date;
     }

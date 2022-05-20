@@ -11,7 +11,7 @@ public class UserCreated extends DomainEvent {
         this.name = name;
     }
 
-    public Name getName(){
+    public Name getName() {
         return name;
     }
 }

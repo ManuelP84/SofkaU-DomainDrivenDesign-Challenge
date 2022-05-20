@@ -6,9 +6,9 @@ import com.sofkau.domainDrivenDesignChallenge.domain.values.OrderId;
 
 public class CreateInvoice extends Command {
     private final InvoiceId invoiceId;
-    private final OrderId orderId;
+    private final OrderId   orderId;
 
-    public CreateInvoice(InvoiceId invoiceId, OrderId orderId){
+    public CreateInvoice(InvoiceId invoiceId, OrderId orderId) {
         this.invoiceId = invoiceId;
         this.orderId = orderId;
     }

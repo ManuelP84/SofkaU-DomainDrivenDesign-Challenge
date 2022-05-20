@@ -6,7 +6,7 @@ import com.sofkau.domainDrivenDesignChallenge.domain.values.ProductId;
 
 public class ProductNameUpdated extends DomainEvent {
     private final ProductId productId;
-    private final Name name;
+    private final Name      name;
 
     public ProductNameUpdated(ProductId entityId, Name name) {
         super("sofkaU.store.productNameUpdated");

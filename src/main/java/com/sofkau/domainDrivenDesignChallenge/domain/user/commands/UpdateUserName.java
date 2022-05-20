@@ -6,7 +6,7 @@ import com.sofkau.domainDrivenDesignChallenge.domain.values.Name;
 public class UpdateUserName extends Command {
     private final Name name;
 
-    public UpdateUserName(Name name){
+    public UpdateUserName(Name name) {
         this.name = name;
     }
 

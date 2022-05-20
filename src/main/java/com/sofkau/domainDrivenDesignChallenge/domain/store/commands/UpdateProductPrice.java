@@ -6,9 +6,9 @@ import com.sofkau.domainDrivenDesignChallenge.domain.values.ProductId;
 
 public class UpdateProductPrice extends Command {
     private final ProductId productId;
-    private final Price price;
+    private final Price     price;
 
-    public UpdateProductPrice(ProductId productId, Price price){
+    public UpdateProductPrice(ProductId productId, Price price) {
         this.productId = productId;
         this.price = price;
     }

@@ -4,14 +4,14 @@ import co.com.sofka.domain.generic.Identity;
 
 public class CartId extends Identity {
 
-    public CartId(){
+    public CartId() {
     }
 
-    private CartId(String id){
+    private CartId(String id) {
         super(id);
     }
 
-    public static CartId of(String id){
+    public static CartId of(String id) {
         return new CartId(id);
     }
 }

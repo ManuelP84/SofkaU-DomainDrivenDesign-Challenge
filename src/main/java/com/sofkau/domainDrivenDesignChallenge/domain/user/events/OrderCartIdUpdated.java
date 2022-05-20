@@ -6,7 +6,7 @@ import com.sofkau.domainDrivenDesignChallenge.domain.values.OrderId;
 
 public class OrderCartIdUpdated extends DomainEvent {
     private final OrderId orderId;
-    private final CartId cartId;
+    private final CartId  cartId;
 
     public OrderCartIdUpdated(OrderId entityId, CartId cartId) {
         super("sofkaU.user.orderCardIdUpdated");

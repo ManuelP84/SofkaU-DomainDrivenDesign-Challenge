@@ -6,21 +6,21 @@ import com.sofkau.domainDrivenDesignChallenge.domain.values.Name;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.ProductId;
 
 public class Product extends Entity<ProductId> {
-    private Name name;
+    private Name  name;
     private Price price;
 
-    public Product(ProductId entityId, Name name, Price price){
+    public Product(ProductId entityId, Name name, Price price) {
         super(entityId);
         this.name = name;
         this.price = price;
     }
 
     // Behaviors
-    public void updateName(Name name){
+    public void updateName(Name name) {
         this.name = name;
     }
 
-    public void updatePrice(Price price){
+    public void updatePrice(Price price) {
         this.price = price;
     }
 

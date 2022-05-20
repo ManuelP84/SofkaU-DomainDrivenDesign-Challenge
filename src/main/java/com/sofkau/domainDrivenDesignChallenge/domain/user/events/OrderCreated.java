@@ -8,7 +8,7 @@ import com.sofkau.domainDrivenDesignChallenge.domain.values.OrderId;
 public class OrderCreated extends DomainEvent {
     private final OrderId orderId;
     private final Date    date;
-    private final CartId cartId;
+    private final CartId  cartId;
 
     public OrderCreated(OrderId entityId, Date date, CartId cartId) {
         super("sofkaU.user.orderCreated");

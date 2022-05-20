@@ -17,8 +17,8 @@ import java.util.Optional;
 import java.util.Set;
 
 public class User extends AggregateEvent<UserId> {
-    protected Name     name;
-    protected Set<Pqr> pqrs;
+    protected Name       name;
+    protected Set<Pqr>   pqrs;
     protected Set<Order> orders;
 
     public User(UserId entityId, Name name) {
@@ -26,12 +26,12 @@ public class User extends AggregateEvent<UserId> {
         appendChange(new UserCreated(name)).apply();
     }
 
-    private User(UserId entityId){
+    private User(UserId entityId) {
         super(entityId);
         subscribe(new UserChange(this));
     }
 
-    public static User from(UserId userId, List<DomainEvent> events){
+    public static User from(UserId userId, List<DomainEvent> events) {
         var user = new User(userId);
         events.forEach(user::applyEvent);
         return user;
@@ -43,45 +43,45 @@ public class User extends AggregateEvent<UserId> {
         appendChange(new PqrCreated(entityId, description)).apply();
     }
 
-    public void createOrder(OrderId entityId, Date date, CartId cartId){
+    public void createOrder(OrderId entityId, Date date, CartId cartId) {
         Objects.requireNonNull(entityId);
         Objects.requireNonNull(date);
         Objects.requireNonNull(cartId);
         appendChange(new OrderCreated(entityId, date, cartId)).apply();
     }
 
-    public void updateUserName(Name name){
+    public void updateUserName(Name name) {
         Objects.requireNonNull(name);
         appendChange(new UserNameUpdated(name)).apply();
     }
 
-    public void updatePqrDescription(PqrId entityId, Description description){
+    public void updatePqrDescription(PqrId entityId, Description description) {
         Objects.requireNonNull(entityId);
         Objects.requireNonNull(description);
         appendChange(new PqrDescriptionUpdated(entityId, description)).apply();
     }
 
-    public void updateOrderDate(OrderId entityId, Date date){
+    public void updateOrderDate(OrderId entityId, Date date) {
         Objects.requireNonNull(entityId);
         Objects.requireNonNull(date);
         appendChange(new OrderDateUpdated(entityId, date)).apply();
     }
 
-    public void updateOrderCartId(OrderId entityId, CartId cartId){
+    public void updateOrderCartId(OrderId entityId, CartId cartId) {
         Objects.requireNonNull(entityId);
         Objects.requireNonNull(cartId);
         appendChange(new OrderCartIdUpdated(entityId, cartId)).apply();
     }
 
     //Methods
-    protected Optional<Order> findOrderById(OrderId entityId){
+    protected Optional<Order> findOrderById(OrderId entityId) {
         return orders()
                 .stream()
                 .filter((order) -> order.identity().equals(entityId))
                 .findFirst();
     }
 
-    protected Optional<Pqr> findPqrById(PqrId entityId){
+    protected Optional<Pqr> findPqrById(PqrId entityId) {
         return pqrs()
                 .stream()
                 .filter((pqr) -> pqr.identity().equals(entityId))

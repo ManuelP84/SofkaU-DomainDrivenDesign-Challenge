@@ -8,9 +8,9 @@ public class Price implements ValueObject<Double> {
 
     private final Double value;
 
-    public Price(Double value){
+    public Price(Double value) {
         this.value = Objects.requireNonNull(value);
-        if (this.value <= 0){
+        if (this.value <= 0) {
             throw new IllegalArgumentException("The price must be greater than cero!");
         }
     }

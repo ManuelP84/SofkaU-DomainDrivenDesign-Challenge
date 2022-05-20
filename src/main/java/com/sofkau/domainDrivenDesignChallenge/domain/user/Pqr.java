@@ -16,7 +16,7 @@ public class Pqr extends Entity<PqrId> {
     }
 
     //Behaviors
-    public void updateDescription(Description description){
+    public void updateDescription(Description description) {
         this.description = Objects.requireNonNull(description);
     }
 

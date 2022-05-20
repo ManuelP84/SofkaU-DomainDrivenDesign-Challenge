@@ -7,13 +7,13 @@ import java.util.Objects;
 public class Description implements ValueObject<String> {
     private final String value;
 
-    public Description(String value){
+    public Description(String value) {
         this.value = Objects.requireNonNull(value);
-        if (this.value.isBlank()){
+        if (this.value.isBlank()) {
             throw new IllegalArgumentException("The description can't be empty!");
         }
 
-        if (this.value.length() < 20){
+        if (this.value.length() < 20) {
             throw new IllegalArgumentException("The description must contain at least 20 characters.");
         }
     }

@@ -5,20 +5,20 @@ import com.sofkau.domainDrivenDesignChallenge.domain.user.values.UserId;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.Name;
 
 public class CreateUser extends Command {
-        private UserId userId;
-        private Name name;
+    private UserId userId;
+    private Name   name;
 
-        public CreateUser(UserId entityId, Name name){
-                this.userId = entityId;
-                this.name = name;
-        }
+    public CreateUser(UserId entityId, Name name) {
+        this.userId = entityId;
+        this.name = name;
+    }
 
-        // Getter methods
-        public UserId getUserId() {
-                return userId;
-        }
+    // Getter methods
+    public UserId getUserId() {
+        return userId;
+    }
 
-        public Name getName() {
-                return name;
-        }
+    public Name getName() {
+        return name;
+    }
 }

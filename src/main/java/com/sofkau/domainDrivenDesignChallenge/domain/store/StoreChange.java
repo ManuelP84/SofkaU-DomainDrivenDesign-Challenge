@@ -7,7 +7,7 @@ import java.util.HashSet;
 
 public class StoreChange extends EventChange {
 
-    public StoreChange(Store store){
+    public StoreChange(Store store) {
 
         apply((StoreCreated event) -> {
             store.name = event.getName();

@@ -6,9 +6,9 @@ import com.sofkau.domainDrivenDesignChallenge.domain.values.Name;
 
 public class CreateStore extends Command {
     private final StoreId storeId;
-    private final Name name;
+    private final Name    name;
 
-    public CreateStore(StoreId storeId, Name name){
+    public CreateStore(StoreId storeId, Name name) {
         this.storeId = storeId;
         this.name = name;
     }

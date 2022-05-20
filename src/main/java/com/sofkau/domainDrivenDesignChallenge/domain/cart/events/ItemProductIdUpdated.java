@@ -5,7 +5,7 @@ import com.sofkau.domainDrivenDesignChallenge.domain.cart.values.ItemId;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.ProductId;
 
 public class ItemProductIdUpdated extends DomainEvent {
-    private final ItemId itemId;
+    private final ItemId    itemId;
     private final ProductId productId;
 
     public ItemProductIdUpdated(ItemId entityId, ProductId productId) {

@@ -5,7 +5,7 @@ import com.sofkau.domainDrivenDesignChallenge.domain.cart.values.ItemId;
 import com.sofkau.domainDrivenDesignChallenge.domain.cart.values.Quantity;
 
 public class ItemQuantityUpdated extends DomainEvent {
-    private final ItemId itemId;
+    private final ItemId   itemId;
     private final Quantity quantity;
 
     public ItemQuantityUpdated(ItemId entityId, Quantity quantity) {

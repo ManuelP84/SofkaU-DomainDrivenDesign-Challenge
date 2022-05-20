@@ -7,13 +7,13 @@ import java.util.Objects;
 public class Date implements ValueObject<String> {
     private final String value;
 
-    public Date(String value){
+    public Date(String value) {
         this.value = Objects.requireNonNull(value);
-        if (this.value.isBlank()){
+        if (this.value.isBlank()) {
             throw new IllegalArgumentException("The date can't be empty!");
         }
 
-        if (this.value.length() < 5){
+        if (this.value.length() < 5) {
             throw new IllegalArgumentException("The date must contain at least 5 characters as follows xx-xx-xx ");
         }
     }

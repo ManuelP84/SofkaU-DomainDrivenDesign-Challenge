@@ -14,7 +14,7 @@ public class UserChange extends EventChange {
             user.orders = new HashSet<>();
         });
 
-        apply((PqrCreated event) ->{
+        apply((PqrCreated event) -> {
             user.pqrs().add(new Pqr(
                     event.getPqrId(),
                     event.getDescription()
@@ -47,7 +47,7 @@ public class UserChange extends EventChange {
             order.updateDate(event.getDate());
         });
 
-        apply((OrderCartIdUpdated event) ->{
+        apply((OrderCartIdUpdated event) -> {
             var order = user
                     .findOrderById(event.getOrderId())
                     .orElseThrow(() -> new IllegalArgumentException("Order was not found!"));

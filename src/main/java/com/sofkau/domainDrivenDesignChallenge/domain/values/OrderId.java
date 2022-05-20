@@ -4,14 +4,14 @@ import co.com.sofka.domain.generic.Identity;
 
 public class OrderId extends Identity {
 
-    public OrderId(){
+    public OrderId() {
     }
 
-    private OrderId(String id){
+    private OrderId(String id) {
         super(id);
     }
 
-    public static OrderId of(String id){
+    public static OrderId of(String id) {
         return new OrderId(id);
     }
 }

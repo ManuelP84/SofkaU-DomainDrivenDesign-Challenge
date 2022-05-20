@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public class Store extends AggregateEvent<StoreId> {
-    protected Name name;
+    protected Name         name;
     protected Set<Product> products;
     protected Set<Invoice> invoices;
 
@@ -26,18 +26,18 @@ public class Store extends AggregateEvent<StoreId> {
         appendChange(new StoreCreated(name)).apply();
     }
 
-    private Store(StoreId entityId){
+    private Store(StoreId entityId) {
         super(entityId);
         subscribe(new StoreChange(this));
     }
 
-    public static Store from(StoreId entityId, List<DomainEvent> events){
+    public static Store from(StoreId entityId, List<DomainEvent> events) {
         var store = new Store(entityId);
         events.forEach(store::applyEvent);
         return store;
     }
 
-    public void createInvoice(InvoiceId entityId, OrderId orderId){
+    public void createInvoice(InvoiceId entityId, OrderId orderId) {
         Objects.requireNonNull(entityId);
         Objects.requireNonNull(orderId);
         appendChange(new InvoiceCreated(entityId, orderId)).apply();
@@ -50,38 +50,38 @@ public class Store extends AggregateEvent<StoreId> {
         appendChange(new ProductCreated(entityId, name, price)).apply();
     }
 
-    public void updateName(Name name){
+    public void updateName(Name name) {
         Objects.requireNonNull(name);
         appendChange(new NameUpdated(name)).apply();
     }
 
-    public void updateInvoiceOrderId(InvoiceId entityId, OrderId orderId){
+    public void updateInvoiceOrderId(InvoiceId entityId, OrderId orderId) {
         Objects.requireNonNull(entityId);
         Objects.requireNonNull(orderId);
         appendChange(new InvoiceOrderIdUpdated(entityId, orderId)).apply();
     }
 
-    public void updateProductName(ProductId entityId, Name name){
+    public void updateProductName(ProductId entityId, Name name) {
         Objects.requireNonNull(entityId);
         Objects.requireNonNull(name);
         appendChange(new ProductNameUpdated(entityId, name)).apply();
     }
 
-    public void updateProductPrice(ProductId entityId, Price price){
+    public void updateProductPrice(ProductId entityId, Price price) {
         Objects.requireNonNull(entityId);
         Objects.requireNonNull(price);
         appendChange(new ProductPriceUpdated(entityId, price)).apply();
     }
 
     //Methods
-    protected Optional<Invoice> findInvoiceById(InvoiceId entityId){
+    protected Optional<Invoice> findInvoiceById(InvoiceId entityId) {
         return invoices()
                 .stream()
                 .filter((invoice) -> invoice.identity().equals(entityId))
                 .findFirst();
     }
 
-    protected Optional<Product> findProductById(ProductId entityId){
+    protected Optional<Product> findProductById(ProductId entityId) {
         return products()
                 .stream()
                 .filter((product) -> product.identity().equals(entityId))

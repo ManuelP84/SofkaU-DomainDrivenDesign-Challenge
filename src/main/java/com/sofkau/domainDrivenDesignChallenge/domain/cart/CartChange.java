@@ -6,14 +6,14 @@ import com.sofkau.domainDrivenDesignChallenge.domain.cart.events.*;
 import java.util.HashSet;
 
 public class CartChange extends EventChange {
-    public CartChange(Cart cart){
+    public CartChange(Cart cart) {
         apply((CartCreated event) -> {
             cart.name = event.getName();
             cart.items = new HashSet<>();
             cart.offers = new HashSet<>();
         });
 
-        apply((ItemCreated event) ->{
+        apply((ItemCreated event) -> {
             cart.items.add(new Item(
                     event.getItemId(),
                     event.getProductId(),
@@ -27,6 +27,10 @@ public class CartChange extends EventChange {
                     event.getProductId(),
                     event.getDiscount()
             ));
+        });
+
+        apply((NameUpdated event) -> {
+            cart.name = event.getName();
         });
 
         apply((ItemProductIdUpdated event) -> {

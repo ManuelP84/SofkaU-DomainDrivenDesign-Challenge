@@ -6,9 +6,9 @@ import com.sofkau.domainDrivenDesignChallenge.domain.cart.values.OfferId;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.ProductId;
 
 public class OfferCreated extends DomainEvent {
-    private final OfferId offerId;
+    private final OfferId   offerId;
     private final ProductId productId;
-    private final Discount discount;
+    private final Discount  discount;
 
     public OfferCreated(OfferId entityId, ProductId productId, Discount discount) {
         super("sofkaU.cart.offerCreated");

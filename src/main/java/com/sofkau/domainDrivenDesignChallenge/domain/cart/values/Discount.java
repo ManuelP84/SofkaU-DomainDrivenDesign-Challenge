@@ -7,9 +7,9 @@ import java.util.Objects;
 public class Discount implements ValueObject<Double> {
     private final Double value;
 
-    public Discount(Double value){
+    public Discount(Double value) {
         this.value = Objects.requireNonNull(value);
-        if (this.value <= 0){
+        if (this.value <= 0) {
             throw new IllegalArgumentException("The discount must be greater than cero!");
         }
     }

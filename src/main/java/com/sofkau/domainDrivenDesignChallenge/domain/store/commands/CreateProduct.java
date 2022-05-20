@@ -7,10 +7,10 @@ import com.sofkau.domainDrivenDesignChallenge.domain.values.ProductId;
 
 public class CreateProduct extends Command {
     private final ProductId productId;
-    private final Name name;
-    private final Price price;
+    private final Name      name;
+    private final Price     price;
 
-    public CreateProduct(ProductId productId, Name name, Price price){
+    public CreateProduct(ProductId productId, Name name, Price price) {
         this.productId = productId;
         this.name = name;
         this.price = price;
