@@ -3,11 +3,15 @@ package com.sofkau.domainDrivenDesignChallenge.domain.user;
 import co.com.sofka.domain.generic.EventChange;
 import com.sofkau.domainDrivenDesignChallenge.domain.user.events.*;
 
+import java.util.HashSet;
+
 public class UserChange extends EventChange {
     public UserChange(User user) {
 
         apply((UserCreated event) -> {
             user.name = event.getName();
+            user.pqrs = new HashSet<>();
+            user.orders = new HashSet<>();
         });
 
         apply((PqrCreated event) ->{

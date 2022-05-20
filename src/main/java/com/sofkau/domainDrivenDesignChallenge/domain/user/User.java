@@ -18,7 +18,7 @@ import java.util.Set;
 
 public class User extends AggregateEvent<UserId> {
     protected Name     name;
-    protected Set<Pqr> Pqrs;
+    protected Set<Pqr> pqrs;
     protected Set<Order> orders;
 
     public User(UserId entityId, Name name) {
@@ -94,7 +94,7 @@ public class User extends AggregateEvent<UserId> {
     }
 
     public Set<Pqr> pqrs() {
-        return Pqrs;
+        return pqrs;
     }
 
     public Set<Order> orders() {

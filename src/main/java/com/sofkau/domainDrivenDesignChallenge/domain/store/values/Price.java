@@ -1,4 +1,4 @@
-package com.sofkau.domainDrivenDesignChallenge.domain.store.commands.values;
+package com.sofkau.domainDrivenDesignChallenge.domain.store.values;
 
 import co.com.sofka.domain.generic.ValueObject;
 
