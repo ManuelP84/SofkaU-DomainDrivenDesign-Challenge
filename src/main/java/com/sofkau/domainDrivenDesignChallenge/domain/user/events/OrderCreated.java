@@ -6,7 +6,6 @@ import com.sofkau.domainDrivenDesignChallenge.domain.values.CartId;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.OrderId;
 
 public class OrderCreated extends DomainEvent {
-
     private final OrderId orderId;
     private final Date    date;
     private final CartId cartId;

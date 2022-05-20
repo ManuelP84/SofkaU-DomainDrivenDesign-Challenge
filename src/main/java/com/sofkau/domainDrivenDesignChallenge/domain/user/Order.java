@@ -6,7 +6,6 @@ import com.sofkau.domainDrivenDesignChallenge.domain.values.CartId;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.OrderId;
 
 public class Order extends Entity<OrderId> {
-
     private Date date;
     private CartId cartId;
 
