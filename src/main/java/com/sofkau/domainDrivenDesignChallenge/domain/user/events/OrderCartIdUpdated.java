@@ -4,18 +4,18 @@ import co.com.sofka.domain.generic.DomainEvent;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.CartId;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.OrderId;
 
-public class OrderCardIdUpdated extends DomainEvent {
-    private final OrderId entityId;
+public class OrderCartIdUpdated extends DomainEvent {
+    private final OrderId orderId;
     private final CartId cartId;
 
-    public OrderCardIdUpdated(OrderId entityId, CartId cartId) {
+    public OrderCartIdUpdated(OrderId entityId, CartId cartId) {
         super("sofkaU.user.orderCardIdUpdated");
-        this.entityId = entityId;
+        this.orderId = entityId;
         this.cartId = cartId;
     }
 
-    public OrderId getEntityId() {
-        return entityId;
+    public OrderId getOrderId() {
+        return orderId;
     }
 
     public CartId getCartId() {

@@ -1,6 +1,7 @@
 package com.sofkau.domainDrivenDesignChallenge.domain.user;
 
 import co.com.sofka.domain.generic.AggregateEvent;
+import co.com.sofka.domain.generic.DomainEvent;
 import com.sofkau.domainDrivenDesignChallenge.domain.user.events.*;
 import com.sofkau.domainDrivenDesignChallenge.domain.user.values.Date;
 import com.sofkau.domainDrivenDesignChallenge.domain.user.values.Description;
@@ -10,6 +11,7 @@ import com.sofkau.domainDrivenDesignChallenge.domain.values.CartId;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.Name;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.OrderId;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -27,6 +29,12 @@ public class User extends AggregateEvent<UserId> {
     private User(UserId entityId){
         super(entityId);
         subscribe(new UserChange(this));
+    }
+
+    public static User from(UserId userId, List<DomainEvent> events){
+        var user = new User(userId);
+        events.forEach(user::applyEvent);
+        return user;
     }
 
     public void createPqr(PqrId entityId, Description description) {
@@ -59,21 +67,21 @@ public class User extends AggregateEvent<UserId> {
         appendChange(new OrderDateUpdated(entityId, date)).apply();
     }
 
-    public void updateOrderCardId(OrderId entityId, CartId cartId){
+    public void updateOrderCartId(OrderId entityId, CartId cartId){
         Objects.requireNonNull(entityId);
         Objects.requireNonNull(cartId);
-        appendChange(new OrderCardIdUpdated(entityId, cartId)).apply();
+        appendChange(new OrderCartIdUpdated(entityId, cartId)).apply();
     }
 
     //Methods
-    public Optional<Order> findOrderById(OrderId entityId){
+    protected Optional<Order> findOrderById(OrderId entityId){
         return orders()
                 .stream()
                 .filter((order) -> order.identity().equals(entityId))
                 .findFirst();
     }
 
-    public Optional<Pqr> findPqrById(PqrId entityId){
+    protected Optional<Pqr> findPqrById(PqrId entityId){
         return pqrs()
                 .stream()
                 .filter((pqr) -> pqr.identity().equals(entityId))

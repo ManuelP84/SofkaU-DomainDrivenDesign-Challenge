@@ -1,19 +1,19 @@
-package com.sofkau.domainDrivenDesignChallenge.domain.user.events;
+package com.sofkau.domainDrivenDesignChallenge.domain.user.commands;
 
-import co.com.sofka.domain.generic.DomainEvent;
+import co.com.sofka.domain.generic.Command;
 import com.sofkau.domainDrivenDesignChallenge.domain.user.values.Date;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.OrderId;
 
-public class OrderDateUpdated extends DomainEvent {
+public class UpdateOrderDate extends Command {
     private final OrderId orderId;
     private final Date date;
 
-    public OrderDateUpdated(OrderId entityId, Date date) {
-        super("sofkaU.user.orderDateUpdated");
+    public UpdateOrderDate(OrderId entityId, Date date){
         this.orderId = entityId;
         this.date = date;
     }
 
+    // Getter methods
     public OrderId getOrderId() {
         return orderId;
     }
