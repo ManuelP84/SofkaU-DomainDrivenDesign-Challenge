@@ -10,7 +10,6 @@ public class CreateOrder extends Command {
     private final CartId cartId;
 
     public CreateOrder(OrderId entityId, Date date, CartId cartId){
-
         this.orderId = entityId;
         this.cartId = cartId;
     }
