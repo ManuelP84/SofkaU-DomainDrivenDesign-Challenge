@@ -4,17 +4,17 @@ import co.com.sofka.business.generic.UseCase;
 import co.com.sofka.business.support.RequestCommand;
 import co.com.sofka.business.support.ResponseEvents;
 import com.sofkau.domainDrivenDesignChallenge.domain.user.User;
-import com.sofkau.domainDrivenDesignChallenge.domain.user.commands.CreateOrder;
+import com.sofkau.domainDrivenDesignChallenge.domain.user.commands.UpdateUserName;
 
-public class CreateOrderUseCase extends UseCase<RequestCommand<CreateOrder>, ResponseEvents> {
+public class UpdateUserNameUseCase extends UseCase<RequestCommand<UpdateUserName>, ResponseEvents> {
     @Override
-    public void executeUseCase(RequestCommand<CreateOrder> createOrderRequestCommand) {
-        var command = createOrderRequestCommand.getCommand();
+    public void executeUseCase(RequestCommand<UpdateUserName> updateUserNameRequestCommand) {
+        var command = updateUserNameRequestCommand.getCommand();
         var user = User.from(
                 command.getUserId(),
                 repository().getEventsBy(command.getUserId().value())
         );
-        user.createOrder(command.getOrderId(), command.getDate(), command.getCartId());
+        user.updateUserName(command.getName());
 
         emit().onResponse(new ResponseEvents(user.getUncommittedChanges()));
     }

@@ -7,6 +7,7 @@ import com.sofkau.domainDrivenDesignChallenge.domain.cart.Cart;
 import com.sofkau.domainDrivenDesignChallenge.domain.cart.commands.CreateCart;
 
 public class CreateCartUseCase extends UseCase<RequestCommand<CreateCart>, ResponseEvents> {
+
     @Override
     public void executeUseCase(RequestCommand<CreateCart> createCartRequestCommand) {
         var command = createCartRequestCommand.getCommand();
