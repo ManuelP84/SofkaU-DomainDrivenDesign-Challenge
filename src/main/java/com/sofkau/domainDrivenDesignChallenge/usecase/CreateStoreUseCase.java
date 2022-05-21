@@ -5,7 +5,6 @@ import co.com.sofka.business.support.RequestCommand;
 import co.com.sofka.business.support.ResponseEvents;
 import com.sofkau.domainDrivenDesignChallenge.domain.store.Store;
 import com.sofkau.domainDrivenDesignChallenge.domain.store.commands.CreateStore;
-import com.sofkau.domainDrivenDesignChallenge.domain.user.User;
 
 public class CreateStoreUseCase extends UseCase<RequestCommand<CreateStore>, ResponseEvents> {
 
