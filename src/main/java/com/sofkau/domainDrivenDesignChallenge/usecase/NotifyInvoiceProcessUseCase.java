@@ -17,9 +17,8 @@ public class NotifyInvoiceProcessUseCase extends UseCase<TriggeredEvent<OrderCre
     @Override
     public void executeUseCase(TriggeredEvent<OrderCreated> orderCreatedTriggeredEvent) {
         var event = orderCreatedTriggeredEvent.getDomainEvent();
-        var store = Store.from(StoreId.of("xxxxx"), List.of(new StoreCreated(
-                new Name("Bimbo"))
-        ));
+        var storeId = this.retrieveEvents().get(0).aggregateRootId();
+        var store = Store.from(StoreId.of(storeId), this.retrieveEvents());
         store.createInvoice(InvoiceId.of("555"), event.getOrderId());
 
         emit().onResponse(new ResponseEvents(store.getUncommittedChanges()));
