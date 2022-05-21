@@ -5,7 +5,6 @@ import co.com.sofka.business.repository.DomainEventRepository;
 import co.com.sofka.business.support.TriggeredEvent;
 import com.sofkau.domainDrivenDesignChallenge.domain.store.events.InvoiceCreated;
 import com.sofkau.domainDrivenDesignChallenge.domain.store.events.StoreCreated;
-import com.sofkau.domainDrivenDesignChallenge.domain.store.values.InvoiceId;
 import com.sofkau.domainDrivenDesignChallenge.domain.user.events.OrderCreated;
 import com.sofkau.domainDrivenDesignChallenge.domain.user.values.Date;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.CartId;
@@ -51,5 +50,6 @@ public class NotifyInvoiceProcessUseCaseTest {
 
         var invoice = (InvoiceCreated)events.get(0);
         Assertions.assertEquals(eventOrderCreated.getOrderId().value(),invoice.getOrderId().value());
+        Mockito.verify(repository).getEventsBy(ROOTIDSTORE);
     }
 }
