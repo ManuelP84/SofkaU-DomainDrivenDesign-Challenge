@@ -14,7 +14,11 @@ public class CreateOrderUseCase extends UseCase<RequestCommand<CreateOrder>, Res
                 command.getUserId(),
                 repository().getEventsBy(command.getUserId().value())
         );
-        user.createOrder(command.getOrderId(), command.getDate(), command.getCartId());
+        user.createOrder(
+                command.getOrderId(),
+                command.getDate(),
+                command.getCartId()
+        );
 
         emit().onResponse(new ResponseEvents(user.getUncommittedChanges()));
     }
