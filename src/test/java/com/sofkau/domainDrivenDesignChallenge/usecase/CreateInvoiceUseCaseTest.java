@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class CreateInvoiceUseCaseTest {
 
-    private final String ROOTID = "1234567abcde";
+    private final String ROOTID = "1234abcd";
 
     @InjectMocks
     private CreateInvoiceUseCase useCase;
@@ -37,23 +37,25 @@ public class CreateInvoiceUseCaseTest {
     @Test
     void createInvoiceHappyPass() {
 
-        //Arrange
+        //arrange
         var command = new CreateInvoice(
                 StoreId.of(ROOTID),
                 InvoiceId.of("1234"),
                 OrderId.of("5678")
         );
+
         when(repository.getEventsBy(ROOTID)).thenReturn(history());
         useCase.addRepository(repository);
 
-        //Act
+        //act
         var events = UseCaseHandler
                 .getInstance()
+                .setIdentifyExecutor(ROOTID)
                 .syncExecutor(useCase, new RequestCommand<>(command))
                 .orElseThrow(() -> new IllegalArgumentException("Something went bad!"))
                 .getDomainEvents();
 
-        //Asserts
+        //asserts
         var event = (InvoiceCreated) events.get(0);
         Assertions.assertEquals(command.getInvoiceId().value(), event.getInvoiceId().value());
         Assertions.assertEquals(command.getOrderId().value(), event.getOrderId().value());
@@ -61,8 +63,9 @@ public class CreateInvoiceUseCaseTest {
     }
 
     private List<DomainEvent> history() {
-        Name storeName = new Name("Walmart");
-        var event = new StoreCreated(storeName);
+        var event = new StoreCreated(
+                new Name("Walmart")
+        );
         event.setAggregateRootId(ROOTID);
         return List.of(event);
     }

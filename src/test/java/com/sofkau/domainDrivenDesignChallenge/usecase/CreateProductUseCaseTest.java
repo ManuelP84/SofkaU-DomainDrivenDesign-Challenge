@@ -4,16 +4,12 @@ import co.com.sofka.business.generic.UseCaseHandler;
 import co.com.sofka.business.repository.DomainEventRepository;
 import co.com.sofka.business.support.RequestCommand;
 import co.com.sofka.domain.generic.DomainEvent;
-import com.sofkau.domainDrivenDesignChallenge.domain.store.commands.CreateInvoice;
 import com.sofkau.domainDrivenDesignChallenge.domain.store.commands.CreateProduct;
-import com.sofkau.domainDrivenDesignChallenge.domain.store.events.InvoiceCreated;
 import com.sofkau.domainDrivenDesignChallenge.domain.store.events.ProductCreated;
 import com.sofkau.domainDrivenDesignChallenge.domain.store.events.StoreCreated;
-import com.sofkau.domainDrivenDesignChallenge.domain.store.values.InvoiceId;
 import com.sofkau.domainDrivenDesignChallenge.domain.store.values.Price;
 import com.sofkau.domainDrivenDesignChallenge.domain.store.values.StoreId;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.Name;
-import com.sofkau.domainDrivenDesignChallenge.domain.values.OrderId;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.ProductId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -41,24 +37,26 @@ public class CreateProductUseCaseTest {
     @Test
     void createProductHappyPass() {
 
-        //Arrange
+        //arrange
         var command = new CreateProduct(
                 StoreId.of(ROOTID),
                 ProductId.of("1234"),
                 new Name("Milk"),
                 new Price(850.5)
         );
+
         when(repository.getEventsBy(ROOTID)).thenReturn(history());
         useCase.addRepository(repository);
 
-        //Act
+        //act
         var events = UseCaseHandler
                 .getInstance()
+                .setIdentifyExecutor(ROOTID)
                 .syncExecutor(useCase, new RequestCommand<>(command))
                 .orElseThrow(() -> new IllegalArgumentException("Something went bad!"))
                 .getDomainEvents();
 
-        //Asserts
+        //asserts
         var event = (ProductCreated) events.get(0);
         Assertions.assertEquals(command.getName().value(), event.getName().value());
         Assertions.assertEquals(command.getPrice().value(), event.getPrice().value());
@@ -66,8 +64,9 @@ public class CreateProductUseCaseTest {
     }
 
     private List<DomainEvent> history() {
-        Name storeName = new Name("Walmart");
-        var event = new StoreCreated(storeName);
+        var event = new StoreCreated(
+                new Name("Walmart")
+        );
         event.setAggregateRootId(ROOTID);
         return List.of(event);
     }

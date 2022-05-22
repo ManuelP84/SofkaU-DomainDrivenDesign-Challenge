@@ -10,8 +10,10 @@ public class CreateUserUseCase extends UseCase<RequestCommand<CreateUser>, Respo
     @Override
     public void executeUseCase(RequestCommand<CreateUser> createUserRequestCommand) {
         var command = createUserRequestCommand.getCommand();
-
-        var user = new User(command.getUserId(), command.getName());
+        var user = new User(
+                command.getUserId(),
+                command.getName()
+        );
 
         emit().onResponse(new ResponseEvents(user.getUncommittedChanges()));
     }

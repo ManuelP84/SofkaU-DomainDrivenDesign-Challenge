@@ -11,7 +11,10 @@ public class CreateCartUseCase extends UseCase<RequestCommand<CreateCart>, Respo
     @Override
     public void executeUseCase(RequestCommand<CreateCart> createCartRequestCommand) {
         var command = createCartRequestCommand.getCommand();
-        var cart = new Cart(command.getCartId(), command.getName());
+        var cart = new Cart(
+                command.getCartId(),
+                command.getName()
+        );
 
         emit().onResponse(new ResponseEvents(cart.getUncommittedChanges()));
     }

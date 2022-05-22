@@ -4,16 +4,11 @@ import co.com.sofka.business.generic.UseCaseHandler;
 import co.com.sofka.business.repository.DomainEventRepository;
 import co.com.sofka.business.support.RequestCommand;
 import co.com.sofka.domain.generic.DomainEvent;
-import com.sofkau.domainDrivenDesignChallenge.domain.cart.Offer;
-import com.sofkau.domainDrivenDesignChallenge.domain.cart.commands.CreateItem;
 import com.sofkau.domainDrivenDesignChallenge.domain.cart.commands.CreateOffer;
 import com.sofkau.domainDrivenDesignChallenge.domain.cart.events.CartCreated;
-import com.sofkau.domainDrivenDesignChallenge.domain.cart.events.ItemCreated;
 import com.sofkau.domainDrivenDesignChallenge.domain.cart.events.OfferCreated;
 import com.sofkau.domainDrivenDesignChallenge.domain.cart.values.Discount;
-import com.sofkau.domainDrivenDesignChallenge.domain.cart.values.ItemId;
 import com.sofkau.domainDrivenDesignChallenge.domain.cart.values.OfferId;
-import com.sofkau.domainDrivenDesignChallenge.domain.cart.values.Quantity;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.CartId;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.Name;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.ProductId;
@@ -31,6 +26,8 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 public class CreateOfferUseCaseTest {
 
+    private final String ROOTID = "1234abcd";
+
     @InjectMocks
     private CreateOfferUseCase useCase;
 
@@ -40,34 +37,37 @@ public class CreateOfferUseCaseTest {
     @Test
     void createOfferHappyPass() {
 
-        //Arrange
-        CartId cartId = CartId.of("xxxxx");
-        OfferId offerId = OfferId.of("1234");
-        ProductId productId = ProductId.of("5678");
-        Discount discount = new Discount(20.0);
-        var command = new CreateOffer(cartId, offerId, productId, discount);
+        //arrange
+        var command = new CreateOffer(
+                CartId.of(ROOTID),
+                OfferId.of("1234"),
+                ProductId.of("5678"),
+                new Discount(20.0)
+        );
 
-        when(repository.getEventsBy("xxxxx")).thenReturn(history());
+        when(repository.getEventsBy(ROOTID)).thenReturn(history());
         useCase.addRepository(repository);
 
-        //Act
+        //act
         var events = UseCaseHandler
                 .getInstance()
+                .setIdentifyExecutor(ROOTID)
                 .syncExecutor(useCase, new RequestCommand<>(command))
                 .orElseThrow(() -> new IllegalArgumentException("Something went bad!"))
                 .getDomainEvents();
 
-        //Asserts
+        //asserts
         var event = (OfferCreated) events.get(0);
         Assertions.assertEquals(command.getProductId().value(), event.getProductId().value());
         Assertions.assertEquals(command.getDiscount().value(), event.getDiscount().value());
-        Mockito.verify(repository).getEventsBy("xxxxx");
+        Mockito.verify(repository).getEventsBy(ROOTID);
     }
 
     private List<DomainEvent> history() {
-        Name cartName = new Name("Sports");
-        var event = new CartCreated(cartName);
-        event.setAggregateRootId("xxxxx");
+        var event = new CartCreated(
+                new Name("Sports")
+        );
+        event.setAggregateRootId(ROOTID);
         return List.of(event);
     }
 }

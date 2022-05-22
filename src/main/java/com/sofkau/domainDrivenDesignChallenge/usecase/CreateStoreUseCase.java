@@ -11,7 +11,10 @@ public class CreateStoreUseCase extends UseCase<RequestCommand<CreateStore>, Res
     @Override
     public void executeUseCase(RequestCommand<CreateStore> createStoreRequestCommand) {
         var command = createStoreRequestCommand.getCommand();
-        var store = new Store(command.getStoreId(), command.getName());
+        var store = new Store(
+                command.getStoreId(),
+                command.getName()
+        );
 
         emit().onResponse(new ResponseEvents(store.getUncommittedChanges()));
     }

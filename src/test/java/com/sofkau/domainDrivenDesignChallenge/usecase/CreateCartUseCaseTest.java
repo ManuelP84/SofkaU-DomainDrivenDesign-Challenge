@@ -16,29 +16,32 @@ public class CreateCartUseCaseTest {
 
     private CreateCartUseCase useCase;
 
+    private final String ROOTID = "1234abcd";
 
     @BeforeEach
-    public void setup(){
+    public void setup() {
         useCase = new CreateCartUseCase();
     }
 
     @Test
     void createCartHappyPass() {
 
-        //Arrange
-        CartId cartId = CartId.of("12345");
-        Name cartName = new Name("Accesorios");
-        var command = new CreateCart(cartId, cartName);
+        //arrange
+        var command = new CreateCart(
+                CartId.of("12345"),
+                new Name("Accesorios")
+        );
 
-        //Act
+        //act
         var events = UseCaseHandler.getInstance()
+                .setIdentifyExecutor(ROOTID)
                 .syncExecutor(useCase, new RequestCommand<>(command))
                 .orElseThrow(() -> new IllegalArgumentException("Something went bad!"))
                 .getDomainEvents();
 
-        //Asserts
+        //asserts
         var event = (CartCreated) events.get(0);
-        Assertions.assertEquals(cartId.value(), event.aggregateRootId());
-        Assertions.assertEquals(cartName.value(), event.getName().value());
+        Assertions.assertEquals(command.getCartId().value(), event.aggregateRootId());
+        Assertions.assertEquals(command.getName().value(), event.getName().value());
     }
 }

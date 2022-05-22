@@ -23,6 +23,7 @@ public class NotifyOfferProcessUseCase extends UseCase<TriggeredEvent<ItemCreate
                 ProductId.of("354303"),
                 new Discount(15.0)
         );
+
         emit().onResponse(new ResponseEvents(cart.getUncommittedChanges()));
     }
 }

@@ -14,8 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class CreateStoreUseCaseTest {
 
-    private CreateStoreUseCase useCase;
+    private final String ROOTID = "1234567abcde";
 
+    private CreateStoreUseCase useCase;
 
     @BeforeEach
     public void setup(){
@@ -25,20 +26,21 @@ public class CreateStoreUseCaseTest {
     @Test
     void createStoreHappyPass() {
 
-        //Arrange
-        StoreId storeId = StoreId.of("12345");
-        Name storeName = new Name("Walmart");
-        var command = new CreateStore(storeId, storeName);
+        //arrange
+        var command = new CreateStore(
+                StoreId.of(ROOTID),
+                new Name("Walmart")
+        );
 
-        //Act
+        //act
         var events = UseCaseHandler.getInstance()
                 .syncExecutor(useCase, new RequestCommand<>(command))
                 .orElseThrow(() -> new IllegalArgumentException("Something went bad!"))
                 .getDomainEvents();
 
-        //Asserts
+        //asserts
         var event = (StoreCreated)events.get(0);
-        Assertions.assertEquals(storeId.value(), event.aggregateRootId());
-        Assertions.assertEquals(storeName.value(), event.getName().value());
+        Assertions.assertEquals(command.getStoreId().value(), event.aggregateRootId());
+        Assertions.assertEquals(command.getName().value(), event.getName().value());
     }
 }

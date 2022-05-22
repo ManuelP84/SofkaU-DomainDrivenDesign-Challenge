@@ -14,8 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class CreateUserUseCaseTest {
 
-    private CreateUserUseCase useCase;
+    private final String ROOTID = "1234567abcde";
 
+    private CreateUserUseCase useCase;
 
     @BeforeEach
     public void setup(){
@@ -25,20 +26,23 @@ public class CreateUserUseCaseTest {
     @Test
     void createUserHappyPass() {
 
-        //Arrange
-        UserId userId = UserId.of("12345");
-        Name userName = new Name("Manuel Pineda");
-        var command = new CreateUser(userId, userName);
+        //arrange
+        var command = new CreateUser(
+                UserId.of(ROOTID),
+                new Name("Manuel Pineda")
+        );
 
-        //Act
-        var events = UseCaseHandler.getInstance()
+        //act
+        var events = UseCaseHandler
+                .getInstance()
+                .setIdentifyExecutor(ROOTID)
                 .syncExecutor(useCase, new RequestCommand<>(command))
                 .orElseThrow(() -> new IllegalArgumentException("Something went bad!"))
                 .getDomainEvents();
 
-        //Asserts
+        //asserts
         var event = (UserCreated)events.get(0);
-        Assertions.assertEquals(userId.value(), event.aggregateRootId());
-        Assertions.assertEquals(userName.value(), event.getName().value());
+        Assertions.assertEquals(command.getUserId().value(), event.aggregateRootId());
+        Assertions.assertEquals(command.getName().value(), event.getName().value());
     }
 }

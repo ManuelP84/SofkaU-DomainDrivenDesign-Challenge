@@ -21,6 +21,7 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class NotifyOfferProcessUseCaseTest {
+
     private final String ROOTID = "1234567abcde";
 
     @Mock
@@ -29,7 +30,7 @@ public class NotifyOfferProcessUseCaseTest {
     @Test
     void notifyOfferProcessTest(){
 
-        //Arrange
+        //arrange
         var event1 = new CartCreated(
                 new Name("Sports")
         );
@@ -43,25 +44,21 @@ public class NotifyOfferProcessUseCaseTest {
         event2.setAggregateRootId(ROOTID);
 
         var useCase = new NotifyOfferProcessUseCase();
-
         Mockito.when(repository.getEventsBy(ROOTID)).thenReturn(List.of(event1, event2));
-
         useCase.addRepository(repository);
 
-        //Act
+        //act
         var events = UseCaseHandler
                 .getInstance()
                 .syncExecutor(useCase, new TriggeredEvent<>(event2))
                 .orElseThrow(() -> new IllegalArgumentException("Something went bad!"))
                 .getDomainEvents();
 
-        //Asserts
+        //asserts
         var offerEvent = (OfferCreated) events.get(0);
         Assertions.assertEquals("12345", offerEvent.getOfferId().value());
         Assertions.assertEquals("354303", offerEvent.getProductId().value());
         Assertions.assertEquals(15.0, offerEvent.getDiscount().value());
         Mockito.verify(repository).getEventsBy(ROOTID);
     }
-
-
 }

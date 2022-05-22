@@ -18,6 +18,7 @@ public class CreateInvoiceUseCase extends UseCase<RequestCommand<CreateInvoice>,
                 comand.getInvoiceId(),
                 comand.getOrderId()
         );
+
         emit().onResponse(new ResponseEvents(store.getUncommittedChanges()));
     }
 }

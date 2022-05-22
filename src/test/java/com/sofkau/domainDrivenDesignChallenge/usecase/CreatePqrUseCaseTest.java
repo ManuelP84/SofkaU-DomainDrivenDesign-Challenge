@@ -26,6 +26,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class CreatePqrUseCaseTest {
 
+    private final String ROOTID = "1234abcd";
+
     @InjectMocks
     private CreatePqrUseCase useCase;
 
@@ -35,32 +37,35 @@ public class CreatePqrUseCaseTest {
     @Test
     void createOrderHappyPass() {
 
-        //Arrange
-        UserId userId = UserId.of("xxxxx");
-        PqrId pqrId = PqrId.of("12345");
-        Description description = new Description("This is a complain that must contain at least 20 characters");
-        var command = new CreatePqr(userId, pqrId, description);
+        //arrange
+        var command = new CreatePqr(
+                UserId.of(ROOTID),
+                PqrId.of("12345"),
+                new Description("This is a complain that must contain at least 20 characters")
+        );
 
-        when(repository.getEventsBy("xxxxx")).thenReturn(history());
+        when(repository.getEventsBy(ROOTID)).thenReturn(history());
         useCase.addRepository(repository);
 
-        //Act
+        //act
         var events = UseCaseHandler
                 .getInstance()
+                .setIdentifyExecutor(ROOTID)
                 .syncExecutor(useCase, new RequestCommand<>(command))
                 .orElseThrow(() -> new IllegalArgumentException("Something went bad!"))
                 .getDomainEvents();
 
-        //Asserts
+        //asserts
         var event = (PqrCreated) events.get(0);
         Assertions.assertEquals(command.getDescription().value(), event.getDescription().value());
-        Mockito.verify(repository).getEventsBy("xxxxx");
+        Mockito.verify(repository).getEventsBy(ROOTID);
     }
 
     private List<DomainEvent> history() {
-        Name userName = new Name("Manuel Pineda");
-        var event = new UserCreated(userName);
-        event.setAggregateRootId("xxxxx");
+        var event = new UserCreated(
+                new Name("Manuel Pineda")
+        );
+        event.setAggregateRootId(ROOTID);
         return List.of(event);
     }
 }

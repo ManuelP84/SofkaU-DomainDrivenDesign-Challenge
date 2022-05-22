@@ -9,14 +9,8 @@ import com.sofkau.domainDrivenDesignChallenge.domain.cart.events.CartCreated;
 import com.sofkau.domainDrivenDesignChallenge.domain.cart.events.ItemCreated;
 import com.sofkau.domainDrivenDesignChallenge.domain.cart.values.ItemId;
 import com.sofkau.domainDrivenDesignChallenge.domain.cart.values.Quantity;
-import com.sofkau.domainDrivenDesignChallenge.domain.user.commands.CreateOrder;
-import com.sofkau.domainDrivenDesignChallenge.domain.user.events.OrderCreated;
-import com.sofkau.domainDrivenDesignChallenge.domain.user.events.UserCreated;
-import com.sofkau.domainDrivenDesignChallenge.domain.user.values.Date;
-import com.sofkau.domainDrivenDesignChallenge.domain.user.values.UserId;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.CartId;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.Name;
-import com.sofkau.domainDrivenDesignChallenge.domain.values.OrderId;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.ProductId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -33,6 +27,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class CreateItemUseCaseTest {
 
+    private final String ROOTID = "1234abcd";
+
     @InjectMocks
     private CreateItemUseCase useCase;
 
@@ -42,34 +38,37 @@ public class CreateItemUseCaseTest {
     @Test
     void createItemHappyPass() {
 
-        //Arrange
-        CartId cartId = CartId.of("xxxxx");
-        ItemId itemId = ItemId.of("1234");
-        ProductId productId = ProductId.of("5678");
-        Quantity quantity = new Quantity(5);
-        var command = new CreateItem(cartId, itemId, productId, quantity);
+        //arrange
+        var command = new CreateItem(
+                CartId.of(ROOTID),
+                ItemId.of("1234"),
+                ProductId.of("5678"),
+                new Quantity(5)
+        );
 
-        when(repository.getEventsBy("xxxxx")).thenReturn(history());
+        when(repository.getEventsBy(ROOTID)).thenReturn(history());
         useCase.addRepository(repository);
 
-        //Act
+        //act
         var events = UseCaseHandler
                 .getInstance()
+                .setIdentifyExecutor(ROOTID)
                 .syncExecutor(useCase, new RequestCommand<>(command))
                 .orElseThrow(() -> new IllegalArgumentException("Something went bad!"))
                 .getDomainEvents();
 
-        //Asserts
+        //asserts
         var event = (ItemCreated) events.get(0);
         Assertions.assertEquals(command.getProductId().value(), event.getProductId().value());
         Assertions.assertEquals(command.getQuantity().value(), event.getQuantity().value());
-        Mockito.verify(repository).getEventsBy("xxxxx");
+        Mockito.verify(repository).getEventsBy(ROOTID);
     }
 
     private List<DomainEvent> history() {
-        Name cartName = new Name("Sports");
-        var event = new CartCreated(cartName);
-        event.setAggregateRootId("xxxxx");
+        var event = new CartCreated(
+                new Name("Sports")
+        );
+        event.setAggregateRootId(ROOTID);
         return List.of(event);
     }
 }

@@ -29,12 +29,19 @@ public class NotifyInvoiceProcessUseCaseTest {
 
     @Test
     void notifyInvoiceProcessTest(){
-        var eventOrderCreated = new OrderCreated(OrderId.of("1234"), new Date("02-09-2022"), CartId.of("2222"));
+
+        //arrange
+        var eventOrderCreated = new OrderCreated(
+                OrderId.of("1234"),
+                new Date("02-09-2022"),
+                CartId.of("2222")
+        );
         eventOrderCreated.setAggregateRootId(ROOTIDUSER);
+
         var eventStoreCreated = new StoreCreated(new Name("Walmart"));
         eventStoreCreated.setAggregateRootId(ROOTIDSTORE);
 
-    var useCase = new NotifyInvoiceProcessUseCase();
+        var useCase = new NotifyInvoiceProcessUseCase();
 
         Mockito.when(repository.getEventsBy(ROOTIDSTORE)).thenReturn(List.of(
                 eventStoreCreated
@@ -42,12 +49,14 @@ public class NotifyInvoiceProcessUseCaseTest {
 
         useCase.addRepository(repository);
 
+        //act
         var events = UseCaseHandler.getInstance()
                 .setIdentifyExecutor(ROOTIDSTORE)
                 .syncExecutor(useCase, new TriggeredEvent<>(eventOrderCreated))
                 .orElseThrow()
                 .getDomainEvents();
 
+        //asserts
         var invoice = (InvoiceCreated)events.get(0);
         Assertions.assertEquals(eventOrderCreated.getOrderId().value(),invoice.getOrderId().value());
         Mockito.verify(repository).getEventsBy(ROOTIDSTORE);

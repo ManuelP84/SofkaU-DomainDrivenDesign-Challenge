@@ -27,6 +27,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class CreateOrderUseCaseTest {
 
+    private final String ROOTID = "1234abcd";
+
     @InjectMocks
     private CreateOrderUseCase useCase;
 
@@ -36,34 +38,37 @@ public class CreateOrderUseCaseTest {
     @Test
     void createOrderHappyPass() {
 
-        //Arrange
-        UserId userId = UserId.of("xxxxx");
-        OrderId orderId = OrderId.of("1234");
-        CartId cartId = CartId.of("5678");
-        Date date = new Date("20/05/2022");
-        var command = new CreateOrder(userId, orderId, date, cartId);
+        //arrange
+        var command = new CreateOrder(
+                UserId.of(ROOTID),
+                OrderId.of("1234"),
+                new Date("20/05/2022"),
+                CartId.of("5678")
+        );
 
-        when(repository.getEventsBy("xxxxx")).thenReturn(history());
+        when(repository.getEventsBy(ROOTID)).thenReturn(history());
         useCase.addRepository(repository);
 
-        //Act
+        //act
         var events = UseCaseHandler
                 .getInstance()
+                .setIdentifyExecutor(ROOTID)
                 .syncExecutor(useCase, new RequestCommand<>(command))
                 .orElseThrow(() -> new IllegalArgumentException("Something went bad!"))
                 .getDomainEvents();
 
-        //Asserts
+        //asserts
         var event = (OrderCreated) events.get(0);
         Assertions.assertEquals(command.getDate().value(), event.getDate().value());
         Assertions.assertEquals(command.getCartId().value(), event.getCartId().value());
-        Mockito.verify(repository).getEventsBy("xxxxx");
+        Mockito.verify(repository).getEventsBy(ROOTID);
     }
 
     private List<DomainEvent> history() {
-        Name userName = new Name("Manuel Pineda");
-        var event = new UserCreated(userName);
-        event.setAggregateRootId("xxxxx");
+        var event = new UserCreated(
+                new Name("Manuel")
+        );
+        event.setAggregateRootId(ROOTID);
         return List.of(event);
     }
 }

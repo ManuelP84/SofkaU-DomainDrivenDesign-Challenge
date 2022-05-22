@@ -4,16 +4,11 @@ import co.com.sofka.business.generic.UseCaseHandler;
 import co.com.sofka.business.repository.DomainEventRepository;
 import co.com.sofka.business.support.RequestCommand;
 import co.com.sofka.domain.generic.DomainEvent;
-import com.sofkau.domainDrivenDesignChallenge.domain.user.commands.CreateOrder;
 import com.sofkau.domainDrivenDesignChallenge.domain.user.commands.UpdateUserName;
-import com.sofkau.domainDrivenDesignChallenge.domain.user.events.OrderCreated;
 import com.sofkau.domainDrivenDesignChallenge.domain.user.events.UserCreated;
 import com.sofkau.domainDrivenDesignChallenge.domain.user.events.UserNameUpdated;
-import com.sofkau.domainDrivenDesignChallenge.domain.user.values.Date;
 import com.sofkau.domainDrivenDesignChallenge.domain.user.values.UserId;
-import com.sofkau.domainDrivenDesignChallenge.domain.values.CartId;
 import com.sofkau.domainDrivenDesignChallenge.domain.values.Name;
-import com.sofkau.domainDrivenDesignChallenge.domain.values.OrderId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,6 +24,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class UpdateUserNameUseCaseTest {
 
+    private final String ROOTID = "1234567abcde";
+
     @InjectMocks
     private UpdateUserNameUseCase useCase;
 
@@ -38,31 +35,34 @@ public class UpdateUserNameUseCaseTest {
     @Test
     void updateUserNameHappyPass() {
 
-        //Arrange
-        UserId userId = UserId.of("xxxxx");
-        Name userName = new Name("Manuel Guillermo");
-        var command = new UpdateUserName(userId, userName);
+        //arrange
+        var command = new UpdateUserName(
+                UserId.of(ROOTID),
+                new Name("Manuel")
+        );
 
-        when(repository.getEventsBy("xxxxx")).thenReturn(history());
+        when(repository.getEventsBy(ROOTID)).thenReturn(history());
         useCase.addRepository(repository);
 
-        //Act
+        //act
         var events = UseCaseHandler
                 .getInstance()
+                .setIdentifyExecutor(ROOTID)
                 .syncExecutor(useCase, new RequestCommand<>(command))
                 .orElseThrow(() -> new IllegalArgumentException("Something went bad!"))
                 .getDomainEvents();
 
-        //Asserts
+        //asserts
         var event = (UserNameUpdated) events.get(0);
         Assertions.assertEquals(command.getName().value(), event.getName().value());
-        Mockito.verify(repository).getEventsBy("xxxxx");
+        Mockito.verify(repository).getEventsBy(ROOTID);
     }
 
     private List<DomainEvent> history() {
-        Name userName = new Name("Manuel");
-        var event = new UserCreated(userName);
-        event.setAggregateRootId("xxxxx");
+        var event = new UserCreated(
+                new Name("Manuel")
+        );
+        event.setAggregateRootId(ROOTID);
         return List.of(event);
     }
 }
