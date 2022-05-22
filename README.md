@@ -6,17 +6,17 @@
 3. [Execution](#execution)
 
 ### General Info
-***
+
 ####This is a Spring Boot Domain Driven Design implementation that consists of the following:
 ####Domain model of a general store
 #### The following aggregate roots and their respective entities are defined within the domain:
-* ###Store
+###Store
 * Product
 * Invoice
-* ###Cart
+###Cart
 * Item
 * Offer
-* ###User
+###User
 * Order
 * Pqr
 
