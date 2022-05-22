@@ -3,24 +3,25 @@
 ## Table of Contents
 1. [General Info](#general-info)
 2. [Technologies](#technologies)
-3. [Execution](#execution)
+3. [Dependencies](#dependencies)
+4. [Execution](#execution)
 
 ### General Info
-
-####This is a Spring Boot Domain Driven Design implementation that consists of the following:
-####Domain model of a general store
+***
+#### This is a Spring Boot Domain Driven Design implementation that consists of the following:
+#### Domain model of a general store
 #### The following aggregate roots and their respective entities are defined within the domain:
-###Store
+### Store
 * Product
 * Invoice
-###Cart
+### Cart
 * Item
 * Offer
-###User
+### User
 * Order
 * Pqr
 
-####Use case and unit test implementation:
+#### Use case and unit test implementation:
 * Create an invoice
 * Create a cart
 * Update a user name
@@ -35,11 +36,13 @@
 * Create a product
 
 ## Technologies
+***
 * Maven Project
 * Java 11
 * Spring Boot 2.6.7
 
 ## Dependencies
+***
 * spring-boot-starter
 * spring-boot-starter-test
 * sofka-domain
